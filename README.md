@@ -4,23 +4,16 @@ Lambda function after user confirms account adds user to stripe and then updated
 
 ### Dependancies
 
-```
-npm i stripe
-```
+`npm i stripe`
 
 ### Prerequisites
 
-Add custom user attribute under the cognito menu.
+ - Add custom user attribute under the cognito menu.
+ - Set up trigger, Post Confirmation
+ - Make sure to update your lambda permissions to include `cognito-idp:AdminUpdateUserAttributes`
 
-set up trigger, Post Confirmation
-
-Make sure to update your lambda permissions to include
-
-```
-cognito-idp:AdminUpdateUserAttributes
-```
 ### Add User to Stripe 
-```
+```javascript
 async function createUserInStripe(data) {
   console.log("adding to stripe:", data);
   const { username, email, sub } = data;
@@ -40,7 +33,7 @@ async function createUserInStripe(data) {
 ```
 
 ### Add Stripe ID to Cognito user 
-```
+```javascript
 const updateCognito = async ({ userPoolId, userName, attribute, value }) => {
   const updatedUser = await COGNITO.adminUpdateUserAttributes({
     UserAttributes: [
