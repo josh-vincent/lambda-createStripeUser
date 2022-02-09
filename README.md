@@ -19,6 +19,42 @@ Make sure to update your lambda permissions to include
 ```
 cognito-idp:AdminUpdateUserAttributes
 ```
+### Add User to Stripe 
+```
+async function createUserInStripe(data) {
+  console.log("adding to stripe:", data);
+  const { username, email, sub } = data;
+  const createdUser = await stripe.customers
+    .create({
+      name: username,
+      email: email,
+      description: sub,
+    })
+    .then((result) => {
+      console.log("result", result);
+      return result;
+    })
+    .catch((err) => console.log("err", err));
+  return createdUser;
+}
+```
+
+### Add Stripe ID to Cognito user 
+```
+const updateCognito = async ({ userPoolId, userName, attribute, value }) => {
+  const updatedUser = await COGNITO.adminUpdateUserAttributes({
+    UserAttributes: [
+      {
+        Name: `custom:${attribute}`,
+        Value: value,
+      },
+    ],
+    UserPoolId: userPoolId,
+    Username: userName,
+  }).promise();
+  return updatedUser;
+};
+```
 
 ### Testing
 
