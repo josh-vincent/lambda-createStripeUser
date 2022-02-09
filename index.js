@@ -5,7 +5,7 @@ const COGNITO = new AWS.CognitoIdentityServiceProvider({
   apiVersion: "2016-04-18",
 });
 
-const stripe = require("stripe")("sk_test_ubDVscDUXB04y842N53sxWjh00advqWqiU");
+const stripe = require("stripe")("sk_test_xxx");
 
 exports.handler = async (event) => {
   const { userName, userPoolId } = event;
